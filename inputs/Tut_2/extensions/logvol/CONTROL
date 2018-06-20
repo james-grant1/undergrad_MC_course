@@ -11,6 +11,7 @@ equilibration    0              # Equilibration period: statistics are gathered 
 print           10000            # Print statistics every 'print' moves
 stack           10000            # Size of blocks for block averaging to obtain statistics
 sample coord   100000            # How often to print configurations to ARCHIVE.000
+yamldata 1000                   # Print yamldata every <N> steps
 revconformat dlmonte            # REVCON file is in DLMONTE CONFIG format
 archiveformat dlpoly4           # ARCHIVE.000/HISTORY.000/TRAJECTORY.000 format
                                 # In this case: HISTORY.000 in DLPOLY4 style
