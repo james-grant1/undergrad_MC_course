@@ -111,29 +111,38 @@ Actions 1-3 define a MC 'step', which are used to define how long a calculation 
 .. |action| image:: images/General/action.png
    :scale: 5 %
 
-**instructions for running a simulation**
+.. **instructions for running a simulation**
 
-As the calculation runs and completes, you will notice several new files appear in your directory.  These have similar roles to their counterparts from the previous session and will be explained in detail in the next tutorial.  The files you will be using throughout this tutorial will be the OUTPUT.000 and the PTFILE.000.  
+**Run DL_MONTE**
 
-Now that you have all the output data you could possibly need from this calculation, we shall proceed with extracting the following data from the OUTPUT.000 and PTFILE.000: the time evolution of magnetisation and the distribution of the magnetisations over the course of the simulation.  
+As the calculation runs and completes, you will notice several new files appear in your directory.  These have similar roles to their counterparts from the previous session and will be explained in detail in the next tutorial.  The file you will be using throughout this tutorial will be the OUTPUT.000.
 
-|action| You will need to employ the 'analysis.sh' script by running the following command in the directory containing your output files::
+Open OUTPUT.000 and search for `averages`.  Below this set of data are the average cell parameters and the number of each type of particles.  We are interested in the lines:
 
-	analysis.sh
-	
-The command should complete almost instantly and you should see several new files: M_seq.dat, M_hist.dat, M_hist.png, and M.dat.  These files contain: time-evolution of magnetisation, a normalised magnetisation frequency distribution (in both data and plotted forms), and the average magnetisation at the temperature of the simulation, respectively.
+.. codeblock::
 
-We shall now proceed to run the calculation at higher temperatures to obtain the temperature-dependence of the magnetisation.  
+        A        c       3594.1740         67.9499
+        B        c        501.8260         67.9499
+
+
+For our purposes particles `A` are up spins, and `B` are down spins.  The first number is the avergae number of each particle during the simulation.  The magnetisation of the system is difference between these.  
+
+.. math::
+
+    <M> = | N_{A} - N_{B} |
+
+The second number is the fluctuation in the number of particles which are equal for our purposes.  Make a note of the temrpature of the simulation, number of each particle (spin) and the fluctuations.
+
+We shall now proceed to run the calculation at higher/lower temperatures to obtain the temperature-dependence of the magnetisation.  
 
 |action| Create a new directory for each temperature and copy the CONFIG, CONTROL and FIELD files from your first calculation to them.
   
 |action| Open the CONTROL file in each and increase the temperature to a value of your choosing (HINT: you will not need to go above 5.0 K!) and run the calculations.    
-
 |action| Once each calculation is complete, run the analysis script in the same manner as above to obtain the relevant data.
 
 |action| From your calculations, plot magnetisation vs temperature for the system.  |think| Comment on the shape of your graph and estimate the critical temperature, :math:`T_{c}`, from it. *N.B.* it may be wise to run calculations at several temperatures around the perceived critical point.  
 
-For any general 2D lattice where coupling along rows and along columns are equal, :math:`T_{c}` is given by:
+For a square 2D lattice with nearest neighbour coupling, :math:`T_{c}` is given by:
 
 .. math::
 
@@ -141,15 +150,6 @@ For any general 2D lattice where coupling along rows and along columns are equal
 
 |think| Does your estimation of :math:`T_{c}` agree with that predicted by the above equation? Account for any observed discrepancies.
 
-|action| Plot the time-evolution of magnetisation (on the same graph) for:
-
-	a) :math:`T < T_{c}`
-	b) :math:`T \approx T_c`
-	c) :math:`T > T_{c}`
-
-|think| Comment on any differences between in these plots and rationalise them using your knowledge of ferromagnetism.  Do the results correspond to the predictions of the Ising model?
-
-|action| Also, have a look at the magnetisation histogram for some of your temperatures and describe how the distribution of magnetisations appears to change with temperature.  |think| Does this behaviour support the rest of your output data?
 
 Extension:
 ----------
@@ -158,7 +158,6 @@ You have seen what happens as the system is heated, but you can also look at the
 
 |action| Take the REVCON from one of your simulations where :math:`T > T_{c}`, copy it into a new directory and rename it 'CONFIG'.  Also copy the CONTROL and FIELD files into this directory and change the temperature to :math:`\sim 10^{-3} K`.  Then run the simulation.  
 
-|action| Once the simulation is complete, use the analysis.sh script to extract the output data and plot the time evolution of magnetisation.  Record your observations.  
 |think| Does this agree with magnetic behaviour predicted by the Ising model? 
 
 |think| How does this compare with the time evolution at :math:`T > T_{c}`?
@@ -183,19 +182,14 @@ We have seen what happens when we start the simulations from a fixed starting co
 Extension:
 ----------
 
-|action| For one of your calculations, find out the initial configuration by typing the following into the command line::
-
-	grep seeds OUTPUT.000
-
-Running this command should return a line containing four integer numbers.  
+|action| For one of your calculations, find out the initial random number by searching for `seeds` in OUTPUT.000.  This should locate a line containing four integer numbers.  
 
 |action| Create a new directory and copy the CONFIG, CONTROL and FIELD files into it.  
 
-|action| Go to your CONTROL file and replace 'ranseed' with 'seeds int1 int2 int3 int4' where 'int' are the numbers from the command line.
+|action| Go to your CONTROL file and replace 'ranseed' with 'seeds int1 int2 int3 int4' where 'int' are the numbers in output.000.
 
-|action| Re-run the calculation with this CONTROL file and plot the magnetisation vs time.  |think| Compare this with the equivalent \'ranseed\' calculation data.  
+|action| Run this simulation and compare the final state and average magnetisations from the two calculations.
 
-|think| What do you notice about the magnetisation evolution in the two calculations? Does this confirm that the stochastic nature of Monte Carlo methods can produce reliable results?
 
 Conclusions:
 ============
@@ -224,7 +218,7 @@ where :math:`<E^2>` is the average of the squared energy and :math:`<E>^2` is th
 
 |action| Navigate to one of your calculations and use the following script to extract the values of the energy values and calculate :math:`<E^2>` and :math:`<E>^2` from your calculations and from these, estimate a value for :math:`C_v` at the given temperature:
 
-**script to extract the average energy and energy values from the OUTPUT file and calculate the required values**
+**In order to investigate this, you will need to extract the system energy sequence from PTFILE.000.**
 
 |action| Run the above script for each of your temperatures.  
 
@@ -237,7 +231,7 @@ where :math:`<E^2>` is the average of the squared energy and :math:`<E>^2` is th
 
 So far, you have looked at how the magnetic behaviour of a ferromagnetic system changes over time and temperature, but there is another possible type of magnetism called antiferromagnetism, where the sign of the coupling constant, *J*, changes sign.  This means that it is now favourable for the spin of one site to be opposed to the spin of its neighbours, resulting in a preferred 'checkerboard' pattern of magnetisation on the 2D lattice.  You can investigate the magnetic behaviour in this case using the 2D Ising model.
 
-**script for changing the signs of the coupling constants in the FIELD file and create a new directory for the initial calculation**
+Navigate to the folder `Tut_1/extensions/antiferromagnet/`, which contains input files for an antiferromagnetic Ising model.  In the FIELD files the interaction strength has been changed so that like spins are not favoured, and opposite spins are.
 
 |action| Now investigate the magnetic properties of this material in a manner similar to what you have done in this tutorial.
 
