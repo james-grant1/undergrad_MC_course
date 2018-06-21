@@ -19,7 +19,7 @@ data_keys = dataset[0].keys()
 # This needs to be stripped, assuming a single gcmc particle:
 if 'nmol' in data_keys:
     for my_dict in dataset:
-        my_dict['nmol'] = my_dict['nmol'][0]
+        my_dict['nmol'] = my_dict['nmol'][-1]
 
 # You can now play with the data in python
 # or output the data to a csv
