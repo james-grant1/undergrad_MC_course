@@ -141,11 +141,11 @@ The sequence of moves defines the 'trajectory' of the system in configurational 
 .. |action| image:: images/General/action.png
    :scale: 5 % 
 
-|think| Identify the melting temperature of the system both by visualising the trajectories of your system at each temperature and by plotting energy vs temperature (in the same way that you did in Tutorial 0).  Are the melting temperatures identified in your simulations consistent?
+|think| Identify the melting temperature of the system both by visualising the trajectories of your system at each temperature 
 
-Remember, you can use the 'collate temperature and plot' script to plot the system energy against temperature, once you have run calculations at a variety of temperatures.
+If you run the python script yamltocsv.py (`python yamltocsv.py` or otherise) you can extract the system properties from the file YAMLDAT.000, producing a file data.csv which can be opened in a spreadsheet. 
 
-|think| How does your estimate(s) of the melting point compare with that based on your Molecular Dynamics calculation?
+Calculate the average energy for each calculation and plot this against temperature.
 
 Exercise 2)
 -----------
@@ -154,11 +154,7 @@ So far in this course, we have assumed that the system has reached equilibrium w
 
 One way of determining when a system has reached equilibrium is by plotting the time evolution of total energy over the course of the simulation, which is what you will now do.
 
-|action| Navigate to one of your completed calculations and run the following command:: 
-
-   [user0@node-sw-039 tutorial1]$ strip_yaml.sh energy
-
-|think| From these energy plots, how can you tell whether the system has equilibrated? Estimate the equilibration time for your system.
+|action| For one of your completed calculations plot the evolution of the energy. How can you tell whether the system has equilibrated? Estimate the equilibration time for your system.
 
 |think| How do you think the equilibration time will change with temperature? Explain your answer.
 
@@ -212,11 +208,7 @@ In these calculations, volume moves are attempted less frequently than translati
 
 |action| Plot the total energy of the system as a function of temperature under for both NPT and NVT calculations on the same graph.  |think| How do they compare with each other? (HINT: think about the different types of energy transfer that could be taking place in each case.)
 
-|action| Additionally, by using the command::
-
-   strip_yaml.sh volume
-
-you can extract the time evolution of the system volume from YAMLDATA.000.  |think| Plot this data for each temperature on the same graph.  |think| What trends do you observe as you change the temperature? Is this what you expect from a real material? 
+|action| The data.csv file produced by `yamltocsv.py` will now contain a column `volume`.  Plot this data for each temperature on the same graph.  |think| What trends do you observe as you change the temperature? Is this what you expect from a real material? 
 
 |action| For at least one of your calculations, plot the volume and energy time evolutions on the same graph. |think| Are there any similarities between the shape of the two plots?
 
@@ -311,15 +303,7 @@ The initial values in the CONTROL file are the default values for DL_MONTE but b
 
 |action| Vary each of these values and investigate how the energy equilibrates during the course of the simulation. Try and determine the set of values that give the most efficient equilibration.
 
-You can use::
-
-   grep displacement OUTPUT.000
-
-or the script::
-
-   disp.sh
-
-to print the initial values and the final value of the maximum displacement(s).
+You can search OUTPUT.000 for `displacement` to find the initial and final values used in the simulation.
 
 *N.B.*  This functionality should be used to identify the optimum move size for sampling a given system.  Beware using this functionality in a calculation as it can break detailed balance.
 
@@ -357,13 +341,7 @@ This determines the memory allocated for each particles neighbourlist.  The size
 
 which is a tunable parameter that optimises the performance of the calculation.
 
-|action| Run calculations using different values for this parameter and see how they affect the time taken to complete the calculation.  You can extract this for a given calculation by using the command::
-
-   grep "total elapsed" OUTPUT.000
-
-or alternatively the script::
-
-   time.sh
+|action| Run calculations using different values for this parameter and see how they affect the time taken to complete the calculation.  This is at the end of OUTPUT.000 search for `elapsed time`
 
 |think| How does tuning the *verlet* parameter affect the duration of this calculation? |think| Why might this be the case?
 

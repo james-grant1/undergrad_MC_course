@@ -120,7 +120,7 @@ As the calculation runs and completes, you will notice several new files appear 
 Open OUTPUT.000 and search for `averages`.  Below this set of data are the average cell parameters and the number of each type of particles.  We are interested in the lines:
 
 .. codeblock::
-
+   :linenos:
         A        c       3594.1740         67.9499
         B        c        501.8260         67.9499
 

@@ -172,7 +172,9 @@ The CONTROL file will take the following form in this tutorial:
    #  move volume cubic linear 1   
    start                           
 
-The lines that switch on the neighbour lists: 'nbrlist' and 'maxnonbondnbrs' have been suspended in this session.  This is because the no benefit in maintaining the list under :math:`\mu`\VT ensembles.  We have also suspended atom translation moves for simplicity (though there is nothing in principle wrong with allowing these types of moves), and volume moves since we work under a constant-volume ensemble.  There are two new lines present: the first describes the insert/delete moves for these simulations, with the first number stating how many molecules are inserted/deleted, the second being the weight of the proposed moves and the third being the minimum insertion distance from any other molecules present in the system.
+The lines that switch on the neighbour lists: 'nbrlist' and 'maxnonbondnbrs' have been removed in this section.  We have also removed atom translation moves for simplicity (though there is nothing in principle wrong with allowing these types of moves).  Volume moves are not used since we work under a constant-volume ensemble.  In the example above these are commented by beginning the line with `#` but they are omitted in the inputs you have been given.
+
+There are two new lines present: the first describes the insert/delete moves for these simulations, with the first number stating how many molecules are inserted/deleted, the second being the weight of the proposed moves and the third being the minimum insertion distance from any other molecules present in the system.
 
 In this calculation DL_MONTE is using the activity *a* rather than the chemical potential :math:`\mu`, which are related according to: 
 
@@ -180,14 +182,9 @@ In this calculation DL_MONTE is using the activity *a* rather than the chemical 
 
   a = \exp \Bigl(\frac{\mu}{RT}\Bigr)
 
-where *R* is the gas constant.  This means that small changes to :math:`\mu` can have a large impact on the activity (assuming that *T* is constant).  In your inputs folder you will notice a file called 'activity-chempotential.txt', which lists values of :math:`\mu` and *a* in the first and second columns, respectively at *T* = 1.43 K:
+where *R* is the gas constant.  This means that small changes to :math:`\mu` can have a large impact on the activity (assuming that *T* is constant).  
+.. In your inputs folder you will notice a file called 'activity-chempotential.txt', which lists values of :math:`\mu` and *a* in the first and second columns, respectively at *T* = 1.43 K:
 
-|action| Plot the data in 'activity-chempotential.txt'.
-
-.. |action| image:: images/General/action.png
-   :scale: 5 %
-
-|think| By using your graph or otherwise, estimate the value of :math:`\mu` from the value of *a* given in the CONTROL file.
 
 FIELD
 -----
@@ -223,9 +220,8 @@ As in the previous session, we need to ensure that the system has reached its eq
 
 |action| Navigate to 'inputs' :math:`\rightarrow` 'Tut_4' :math:`\rightarrow` 'main' :math:`\rightarrow` 'Equil'.  You will see the standard DL_MONTE inputs files: CONFIG, CONTROL and FIELD, as well as some scripts for use later.  
 
-|action| Run the DL_MONTE calculations as you have done in the previous session (quick reminder of how to do it). Extract the time-sequence of the number of particles in the system by using the following script::
+|action| Run the DL_MONTE calculations as you have done in the previous session (quick reminder of how to do it). Plot the number of particles e.g. by using `yamltocsv.py` to convert the data in the YAMLDAT.000 file and plot the column headed `nmol`.
 
-  [user@node-sw-119 tut_4]  strip_gcmc.sh
 
 When using 'fixed *N*' ensembles, like NVT and NpT, the simplest way to infer the equilibration of a system is to plot the system energy over the course of the simulation and define the equilibration as the number of steps in the simulation needed for the energy to fluctuate around some constant value.  Under the GC ensembles, this does not apply, instead we plot *N* over the course of the simulation and find the number of steps required for *N* to become roughly constant.
 
@@ -248,16 +244,15 @@ Now that you know how to estimate the equilibration time needed for systems unde
 
 |think| What happens to the total number of particles over the course of the simulation as you vary the temperature and activity? 
 
-|think| From your results and your own knowledge, how does the value of :math:`\mu` change the ease at which particles are:
+|think| From your results and your own knowledge, how does the value of :math:`\mu` change the ease with which particles are:
 
  a) inserted
  b) deleted 
 
-|action| You can also create histograms of the number of particles in the system over the course of the simulation, once you have produced the time sequence, with the script::
+Extension
+=========
 
-  hist.sh nmol.dat j
-
-where *j* is the width of each bin used to generate the histogram.  You must specify the value of *j* in the command.  Though you are free to vary *j*, it is recommended that you set :math:`j = 1`.  Feel free to explore the effect *j* has on the shape of your histogram.
+|action| Using a spreadsheet function or your own script create histograms of the number of particles in the system over the course of the simulation.
 
 |think| How does the shape of the histogram vary with temperature?
 

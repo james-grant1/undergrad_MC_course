@@ -154,7 +154,7 @@ In this exercise, you will be running simulations of the zeolite solid with the 
 
 |action| Run the calculation for the first value of the partial pressure stated in the CONTROL file.  It should take around *x* minutes to complete.  
 
-|action| Once the calculation is complete, open the OUTPUT.000 file and note the average number and fluctuations of CH\ :sub:`4` \ which can be found near the very end of the OUTPUT.000 file: **script to extract these values instead?**
+|action| Once the calculation is complete, open the OUTPUT.000 file and note the average number and fluctuations of CH\ :sub:`4` \ which can be found near the very end of the OUTPUT.000 file:
 
 .. code-block:: html
 
@@ -169,13 +169,7 @@ In this exercise, you will be running simulations of the zeolite solid with the 
                             final energies
    ...
 
-|action| Extract a time sequence of molecule numbers over the course of the simulation by running the script::
-
-  strip_adsorb.sh
-
-This script extracts the number of CH\ :sub:`4` \ from the OUTPUT.000 file each time it records a measurement from the simulation along with the number of steps that have elapsed and places these into a new file called 'adsorb.dat'.
-
-|action| Plot the contents of 'adsorb.dat'.  |think| Is this what you might expect given the conditions specified in the CONTROL file?
+|action| Extract a time sequence of simulation data running the `yamltocsv.py` script and plot the number of adsorbed particles..  |think| Is this what you might expect given the conditions specified in the CONTROL file?
 
 |action| Re-run the calculations, increasing the partial pressure in the CONTROL file for each calculation until you reach the saturation pressure, :math:`P_s`, for this temperature.
 
